@@ -2596,9 +2596,8 @@ func (db *DB) Querier(mint, maxt int64) (_ storage.Querier, err error) {
 		if err != nil {
 			// If we fail, all previously opened queriers must be closed.
 			for _, q := range blockQueriers {
-				if closeErr := q.Close(); closeErr != nil {
-					err = errors.Join(err, fmt.Errorf("close querier during cleanup: %w", closeErr))
-				}
+				// TODO(bwplotka): Handle error.
+				_ = q.Close()
 			}
 		}
 	}()
@@ -2675,9 +2674,8 @@ func (db *DB) blockChunkQuerierForRange(mint, maxt int64) (_ []storage.ChunkQuer
 		if err != nil {
 			// If we fail, all previously opened queriers must be closed.
 			for _, q := range blockQueriers {
-				if closeErr := q.Close(); closeErr != nil {
-					err = errors.Join(err, fmt.Errorf("close querier during cleanup: %w", closeErr))
-				}
+				// TODO(bwplotka): Handle error.
+				_ = q.Close()
 			}
 		}
 	}()
